@@ -49,28 +49,43 @@
       content:''; position:absolute;
       top:-2px; left:-2px; right:-2px; bottom:-2px;
       border-radius:16px;
-      background:linear-gradient(45deg,#8a2be2,#ff00ff);
+      background:linear-gradient(45deg,#008C45,#F4F5F0,#CD212A);
       z-index:-1; transition:box-shadow .3s;
     }
     .btn:hover {
       color:#000; background:rgba(255,255,255,0.1);
     }
     .btn:hover::before {
-      box-shadow:0 0 10px rgba(138,43,226,.7), 0 0 20px rgba(255,0,255,.7);
+      box-shadow:0 0 10px rgba(0,140,69,.7), 0 0 20px rgba(205,33,42,.7);
     }
   </style>
 </head>
 <body>
   <h1>Order from Massimo Pizza 🍕</h1>
   <form id="orderForm">
-    <label for="products">Select Your Items</label>
-    <textarea id="products" placeholder="Example: 2x Margherita, 1x Nutella Pizza" required></textarea>
+    <label for="pizza">Select Your Pizza</label>
+    <select id="pizza">
+      <option value="Margherita">Margherita</option>
+      <option value="Marinara">Marinara</option>
+      <option value="Diavola">Diavola</option>
+      <option value="Prosciutto e Funghi">Prosciutto e Funghi</option>
+      <option value="Quattro Formaggi">Quattro Formaggi</option>
+      <option value="Pepperoni">Pepperoni</option>
+      <option value="Tuna & Onion">Tuna & Onion</option>
+      <option value="Hawaiian">Hawaiian</option>
+      <option value="Capricciosa">Capricciosa</option>
+      <option value="Napoli">Napoli</option>
+      <option value="Vegetarian">Vegetarian</option>
+    </select>
 
-    <label for="notes">Notes / Extra Instructions</label>
-    <textarea id="notes" placeholder="Example: Extra cheese on Margherita, No onions on burger"></textarea>
+    <label for="pizzaNotes">Pizza Notes</label>
+    <textarea id="pizzaNotes" placeholder="Extra cheese, no onions..."></textarea>
 
-    <label for="name">Your Name</label>
-    <input type="text" id="name" placeholder="Your Name" required>
+    <label for="notes">General Notes / Extra Instructions</label>
+    <textarea id="notes" placeholder="Example: Pickup at 9:30PM"></textarea>
+
+    <label for="fullname">Full Name</label>
+    <input type="text" id="fullname" placeholder="Your Full Name" required>
 
     <label for="phone">Your Phone Number</label>
     <input type="tel" id="phone" placeholder="e.g. +34601234567" required>
@@ -83,15 +98,17 @@
       const form = document.getElementById('orderForm');
       form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const products = document.getElementById('products').value.trim();
+        const pizza = document.getElementById('pizza').value;
+        const pizzaNotes = document.getElementById('pizzaNotes').value.trim();
         const notes = document.getElementById('notes').value.trim();
-        const name = document.getElementById('name').value.trim();
+        const fullname = document.getElementById('fullname').value.trim();
         const phone = document.getElementById('phone').value.trim();
 
         let message = `Hi Massimo! I'd like to order:%0A%0A`;
-        message += `${products}%0A%0A`;
-        if (notes) message += `Notes: ${notes}%0A%0A`;
-        message += `Name: ${name}%0A`;
+        message += `Pizza: ${pizza}%0A`;
+        if (pizzaNotes) message += `Pizza Notes: ${pizzaNotes}%0A`;
+        if (notes) message += `General Notes: ${notes}%0A%0A`;
+        message += `Full Name: ${fullname}%0A`;
         message += `Phone: ${phone}%0A%0A`;
         message += `Please confirm the pickup time. Thank you! 🙏`;
 
