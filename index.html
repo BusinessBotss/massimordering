@@ -64,7 +64,7 @@
   <h1>Order from Massimo Pizza 🍕</h1>
   <form id="orderForm">
     <label for="pizza">Select Your Pizza</label>
-    <select id="pizza">
+    <select id="pizza" multiple>
       <option value="Margherita">Margherita</option>
       <option value="Marinara">Marinara</option>
       <option value="Diavola">Diavola</option>
@@ -76,13 +76,55 @@
       <option value="Capricciosa">Capricciosa</option>
       <option value="Napoli">Napoli</option>
       <option value="Vegetarian">Vegetarian</option>
+      <option value="Carbonara">Carbonara (White Pizza)</option>
+      <option value="Mimosa">Mimosa (White Pizza)</option>
+      <option value="Boscaiola">Boscaiola (White Pizza)</option>
+      <option value="Vegetarian Bianca">Vegetarian Bianca (White Pizza)</option>
+      <option value="Mallorquina">Mallorquina (Special Pizza)</option>
+      <option value="Italian Classic">Italian Classic (Special Pizza)</option>
+      <option value="Carnívora">Carnívora (Special Pizza)</option>
+      <option value="Cecina">Cecina (Special Pizza)</option>
+      <option value="6 Cheeses">6 Cheeses (Special Pizza)</option>
+      <option value="Garlic Bread">Garlic Bread (Appetizer)</option>
+      <option value="French Fries">French Fries (Appetizer)</option>
+      <option value="Onion Rings">Onion Rings (Appetizer)</option>
+      <option value="Chicken Nuggets">Chicken Nuggets (Appetizer)</option>
+      <option value="Chicken Fingers">Chicken Fingers (Appetizer)</option>
+      <option value="Chicken Wings">Chicken Wings (Appetizer)</option>
+      <option value="Classic Beef Burger">Classic Beef Burger</option>
+      <option value="Double Beef Burger">Double Beef Burger</option>
+      <option value="Beef Burger With Cheese">Beef Burger With Cheese</option>
+      <option value="Crispy Bacon Beef Burger">Crispy Bacon Beef Burger</option>
+      <option value="Massimo’s Beef Burger">Massimo’s Beef Burger</option>
+      <option value="Classic Chicken Burger">Classic Chicken Burger</option>
+      <option value="Double Chicken Burger">Double Chicken Burger</option>
+      <option value="Chicken Burger With Cheese">Chicken Burger With Cheese</option>
+      <option value="Crispy Bacon Chicken Burger">Crispy Bacon Chicken Burger</option>
+      <option value="Massimo’s Chicken Burger">Massimo’s Chicken Burger</option>
+      <option value="Veggie Burger">Veggie Burger</option>
+      <option value="Veggie Burger With Cheese">Veggie Burger With Cheese</option>
+      <option value="Grilled Chicken Wrap">Grilled Chicken Wrap</option>
+      <option value="Crispy Chicken Wrap">Crispy Chicken Wrap</option>
+      <option value="Vegetarian Wrap">Vegetarian Wrap</option>
+      <option value="Tuna Wrap">Tuna Wrap</option>
+      <option value="Caprese Panuozzo">Caprese Panuozzo</option>
+      <option value="Serrano Panuozzo">Serrano Panuozzo</option>
+      <option value="Vegetarian Panuozzo">Vegetarian Panuozzo</option>
+      <option value="Classic Calzone">Classic Calzone</option>
+      <option value="Capricciosa Calzone">Capricciosa Calzone</option>
+      <option value="Meat Lover Calzone">Meat Lover Calzone</option>
+      <option value="Vegetarian Calzone">Vegetarian Calzone</option>
+      <option value="Lasagna Bolognese">Lasagna Bolognese (Homemade Dish)</option>
+      <option value="Spaghetti & Meatballs">Spaghetti & Meatballs (Homemade Dish)</option>
+      <option value="Eggplant Parmigiana">Eggplant Parmigiana (Homemade Dish)</option>
+      <option value="Tiramisù">Tiramisù (Dessert)</option>
+      <option value="Chocolate Crostata">Chocolate Crostata (Dessert)</option>
+      <option value="Jam Crostata">Jam Crostata (Dessert)</option>
+      <option value="Nutella Pizza">Nutella Pizza (Dessert)</option>
     </select>
 
-    <label for="pizzaNotes">Pizza Notes</label>
-    <textarea id="pizzaNotes" placeholder="Extra cheese, no onions..."></textarea>
-
     <label for="notes">General Notes / Extra Instructions</label>
-    <textarea id="notes" placeholder="Example: Pickup at 9:30PM"></textarea>
+    <textarea id="notes" placeholder="Example: Extra cheese, pickup at 9:30PM"></textarea>
 
     <label for="fullname">Full Name</label>
     <input type="text" id="fullname" placeholder="Your Full Name" required>
@@ -98,15 +140,13 @@
       const form = document.getElementById('orderForm');
       form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const pizza = document.getElementById('pizza').value;
-        const pizzaNotes = document.getElementById('pizzaNotes').value.trim();
+        const pizzas = Array.from(document.getElementById('pizza').selectedOptions).map(opt => opt.value).join(', ');
         const notes = document.getElementById('notes').value.trim();
         const fullname = document.getElementById('fullname').value.trim();
         const phone = document.getElementById('phone').value.trim();
 
         let message = `Hi Massimo! I'd like to order:%0A%0A`;
-        message += `Pizza: ${pizza}%0A`;
-        if (pizzaNotes) message += `Pizza Notes: ${pizzaNotes}%0A`;
+        message += `Items: ${pizzas}%0A`;
         if (notes) message += `General Notes: ${notes}%0A%0A`;
         message += `Full Name: ${fullname}%0A`;
         message += `Phone: ${phone}%0A%0A`;
