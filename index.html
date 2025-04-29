@@ -1,420 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transport Premium Mallorca</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      width: 100%;
-      min-height: 100vh; /* Asegura que ocupe al menos el alto total de la ventana */
-      background: #121212;
-      font-family: 'Poppins', sans-serif;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      /* justify-content: center; /* Eliminado para evitar que empuje el contenido fuera de la pantalla */
-      padding: 40px 20px; /* Añade margen superior e inferior al cuerpo */
-      box-sizing: border-box; /* Asegura que el padding no afecte el ancho/alto total */
-    }
-    .container {
-      background: #1e1e1e;
-      padding: 40px; /* Aumenta el padding interno */
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2); /* Sombra más pronunciada y profesional */
-      width: 100%;
-      max-width: 450px; /* Aumenta ligeramente el ancho máximo */
-      text-align: center;
-      margin: auto; /* Centra el contenedor horizontalmente */
-    }
-    .lang-switcher {
-      margin-bottom: 25px; /* Más espacio por debajo del selector de idioma */
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
-    .lang-btn {
-      background: none;
-      border: 2px solid #444; /* Borde más suave inicialmente */
-      border-radius: 10px;
-      padding: 5px 12px; /* Ajusta padding */
-      color: #ccc; /* Color de texto más suave */
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s, color 0.3s, border-color 0.3s; /* Transición en borde también */
-    }
-    .lang-btn:hover, .lang-btn.active {
-      background: #fff;
-      color: #121212;
-      border-color: #fff; /* Borde blanco en hover/activo */
-    }
-    h1 {
-      font-size: 2.2rem; /* Aumenta ligeramente el tamaño del título */
-      margin-bottom: 30px; /* Más espacio debajo del título */
-      font-weight: 700; /* Asegura que el título sea negrita */
-      color: #fff;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 18px; /* Aumenta el espacio entre campos del formulario */
-    }
-    input, select, textarea, button {
-      width: 100%;
-      padding: 14px; /* Aumenta el padding interno de los campos */
-      border-radius: 8px;
-      border: 1px solid #444; /* Añade un borde sutil a los campos */
-      font-size: 1rem;
-      background: #2c2c2c;
-      color: #fff;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-    input:focus, select:focus, textarea:focus {
-       outline: none;
-       border-color: #666; /* Borde más claro al enfocar */
-       box-shadow: 0 0 8px rgba(255,255,255,0.1); /* Sombra sutil al enfocar */
-    }
-
-     textarea {
-        resize: vertical;
-        min-height: 100px; /* Altura mínima un poco mayor */
-     }
-    button[type="submit"] {
-      background: #000;
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-      padding: 15px; /* Padding un poco mayor para el botón */
-      border: none; /* El botón no necesita borde */
-    }
-    button[type="submit"]:hover:not(:disabled) { /* Añade :not(:disabled) */
-      background: #333;
-    }
-     button[type="submit"]:disabled {
-         background: #555; /* Color diferente cuando está deshabilitado */
-         cursor: not-allowed;
-     }
-
-    /* Estilo para el mensaje de respuesta */
-    #responseMessage {
-       margin-top: 25px; /* Más espacio arriba del mensaje */
-       padding: 12px;
-       border-radius: 8px;
-       font-size: 0.9rem;
-       word-break: break-word; /* Evita que el texto muy largo rompa el diseño */
-    }
-
-
-    @media (max-width: 480px) {
-      body {
-          padding: 30px 15px; /* Ajusta padding en móviles */
-      }
-      .container {
-        padding: 25px; /* Ajusta padding interno en móviles */
-        border-radius: 16px;
-        max-width: 100%; /* Permite que ocupe todo el ancho disponible */
-      }
-      h1 {
-        font-size: 1.8rem; /* Ajusta tamaño título en móviles */
-        margin-bottom: 20px;
-      }
-      form {
-        gap: 15px; /* Ajusta espacio entre campos en móviles */
-      }
-      input, select, textarea, button {
-        font-size: 0.95rem;
-        padding: 12px;
-      }
-       button[type="submit"] {
-            padding: 14px;
-       }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Massimo Pizza – Order Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box }
+        body {
+            background:#000; color:#fff;
+            font-family:'Poppins',sans-serif;
+            display:flex; flex-direction:column;
+            align-items:center; min-height:100vh;
+            padding:20px; text-align:center;
+        }
+        h1 {
+            font-size:2rem; font-weight:700; margin-bottom:30px;
+        }
+        #langSelector {
+            margin-bottom: 20px;
+        }
+        form {
+            width:100%; max-width:500px;
+            display:flex; flex-direction:column; gap:20px;
+            opacity:0; transform:translateY(20px);
+            animation:fadeInUp 0.6s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            to { opacity:1; transform:translateY(0); }
+        }
+        label { font-size:1rem; text-align:left; }
+        select, input, textarea {
+            width:100%; padding:10px;
+            border:2px solid #444; border-radius:8px;
+            background:rgba(255,255,255,0.05);
+            color:#fff; font-size:1rem;
+            font-family:'Poppins',sans-serif;
+            appearance:none; transition:border-color .3s;
+        }
+        select:focus, input:focus, textarea:focus {
+            border-color:#8a2be2; outline:none;
+        }
+        textarea { resize:vertical; min-height:80px; }
+        .btn {
+            position:relative; padding:15px 20px;
+            font-size:1.1rem; font-weight:700;
+            color:#fff; text-decoration:none;
+            border:2px solid; border-radius:16px;
+            background:transparent; cursor:pointer;
+            transition:color .3s;
+        }
+        .btn::before {
+            content:''; position:absolute;
+            top:-2px; left:-2px; right:-2px; bottom:-2px;
+            border-radius:16px;
+            background:linear-gradient(45deg,#008C45,#F4F5F0,#CD212A);
+            z-index:-1; transition:box-shadow .3s;
+        }
+        .btn:hover { color:#000; background:rgba(255,255,255,0.1); }
+        .btn:hover::before {
+            box-shadow:0 0 10px rgba(0,140,69,.7), 0 0 20px rgba(205,33,42,.7);
+        }
+        .product { display: flex; justify-content: space-between; align-items: center; }
+        .product input[type="number"] { width: 80px; }
+        .category {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .category select {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="lang-switcher">
-      <button class="lang-btn active" onclick="switchLang('en')">EN</button>
-      <button class="lang-btn" onclick="switchLang('es')">ES</button>
-      <button class="lang-btn" onclick="switchLang('de')">DE</button>
+    <div id="langSelector">
+        <button onclick="setLanguage('en')">EN</button>
+        <button onclick="setLanguage('es')">ES</button>
+        <button onclick="setLanguage('it')">IT</button>
+        <button onclick="setLanguage('fr')">FR</button>
+        <button onclick="setLanguage('de')">DE</button>
     </div>
-    <h1 id="formTitle">Book Your Premium Transfer</h1>
-    <form id="bookingForm">
-      <input type="text" id="customerName" placeholder="Your Name" required>
-      <input type="tel" id="customerPhone" placeholder="Your Phone Number (with country code)" required>
-      <input type="text" id="pickup" placeholder="Pickup Location" required>
-      <input type="text" id="dropoff" placeholder="Drop-off Location" required>
-      <input type="datetime-local" id="datetime" required>
-      <select id="vehicle" required>
-        <option value="">Select Vehicle Type</option>
-        <option value="car">Car (1-3 passengers)</option>
-        <option value="van">Van (4-7 passengers)</option>
-        <option value="minibus">Minibus (8-15 passengers)</option>
-      </select>
-      <input type="number" id="passengers" placeholder="Number of Passengers" min="1" required>
-      <input type="number" id="luggage" placeholder="Number of Luggage" min="0" value="0">
-      <textarea id="notes" placeholder="Special Requests / Notes"></textarea>
-       <select id="paymentMethod" required>
-        <option value="">Select Payment Method</option>
-        <option value="online">Pay Online (Deposit/Full)</option>
-        <option value="cash">Pay Cash to Driver</option>
-      </select>
-      <button type="submit" id="reserveBtn">Reserve Now</button>
+
+    <h1 id="title">Order from Massimo Pizza 🍕</h1>
+    <form id="orderForm">
+        <div id="productsList"></div>
+
+        <label for="notes" id="notesLabel">General Notes / Extra Instructions</label>
+        <textarea id="notes" placeholder="Example: Extra cheese, pickup at 9:30PM"></textarea>
+
+        <label for="fullname" id="fullnameLabel">Full Name</label>
+        <input type="text" id="fullname" placeholder="Your Full Name" required>
+
+        <label for="phone" id="phoneLabel">Your Phone Number</label>
+        <input type="tel" id="phone" placeholder="e.g. +34601234567" required>
+
+        <button type="submit" class="btn">Send Order via WhatsApp</button>
     </form>
-     <p id="responseMessage" style="margin-top: 20px; color: #00ff00; display: none;"></p>
-  </div>
 
-  <script>
-    let currentLang = 'en'; // Variable para rastrear el idioma actual
+    <script>
+        const productsData = {
+            en: {
+                title: "Order from Massimo Pizza 🍕",
+                categories: {
+                    pizza: {
+                        name: "Pizza",
+                        items: [
+                            {name: "Margherita", description: "Classic mozzarella pizza", price: 8},
+                            {name: "Diavola", description: "Spicy pepperoni pizza", price: 9},
+                            {name: "Hawaiian", description: "Ham and pineapple pizza", price: 9},
+                        ]
+                    },
+                    appetizers: {
+                        name: "Appetizers",
+                        items: [
+                            {name: "Garlic Bread", description: "Crispy garlic bread", price: 3},
+                            {name: "Chicken Fingers", description: "Fried chicken strips", price: 5},
+                        ]
+                    }
+                },
+                notesLabel: "General Notes / Extra Instructions",
+                fullnameLabel: "Full Name",
+                phoneLabel: "Your Phone Number"
+            },
+            es: {
+                title: "Ordena en Massimo Pizza 🍕",
+                categories: {
+                    pizza: {
+                        name: "Pizza",
+                        items: [
+                            {name: "Margherita", description: "Pizza clásica con mozzarella", price: 8},
+                            {name: "Diavola", description: "Pizza picante de pepperoni", price: 9},
+                            {name: "Hawaiian", description: "Pizza con jamón y piña", price: 9},
+                        ]
+                    },
+                    appetizers: {
+                        name: "Aperitivos",
+                        items: [
+                            {name: "Pan de Ajo", description: "Pan de ajo crujiente", price: 3},
+                            {name: "Dedos de Pollo", description: "Tiras de pollo fritas", price: 5},
+                        ]
+                    }
+                },
+                notesLabel: "Notas Generales / Instrucciones Extra",
+                fullnameLabel: "Nombre Completo",
+                phoneLabel: "Número de Teléfono"
+            },
+            // Similar structure for it, fr, de...
+        };
 
-    // !! =============================================================== !!
-    // !! IMPORTANTE: Reemplaza esta URL con la URL de despliegue REAL   !!
-    // !! de tu Google Apps Script que obtuviste al desplegarlo.        !!
-    // !! =============================================================== !!
-const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJi3See9SXig5uSZ5vBu5s-dI37jo82syCUY0cD6GapsNB2ppUO2fuVKUro2DkkxvL2w/exec';
-    const translations = {
-      en: {
-        title: "Book Your Premium Transfer",
-        customerNamePlaceholder: "Your Name",
-        customerPhonePlaceholder: "Your Phone Number (with country code)",
-        pickup: "Pickup Location",
-        dropoff: "Drop-off Location",
-        passengersPlaceholder: "Number of Passengers",
-        luggagePlaceholder: "Number of Luggage",
-        notesPlaceholder: "Special Requests / Notes",
-        selectVehicle: "Select Vehicle Type",
-        selectPayment: "Select Payment Method",
-        reserve: "Reserve Now",
-        optionsVehicle: ["Select Vehicle Type", "Car (1-3 passengers)", "Van (4-7 passengers)", "Minibus (8-15 passengers)"],
-        optionsPayment: ["Select Payment Method", "Pay Online (Deposit/Full)", "Pay Cash to Driver"],
-        whatsappMessage: "Hello! I would like to book a transfer:\n\nName: ${customerName}\nPhone: ${customerPhone}\n\nPickup: ${pickup}\nDrop-off: ${dropoff}\nDate & Time: ${datetime}\nVehicle: ${vehicleText}\nPassengers: ${passengers}\nLuggage: ${luggage}\nNotes: ${notes}\nPayment Method: ${paymentText}",
-        reserveSuccessMessage: "Request sent successfully! Please complete the conversation on WhatsApp.",
-        reserveErrorMessage: "There was an error sending your request. Please try again or contact us directly via WhatsApp."
-      },
-      es: {
-        title: "Reserva tu Transfer Premium",
-        customerNamePlaceholder: "Tu Nombre",
-        customerPhonePlaceholder: "Tu Número de Teléfono (con código de país)",
-        pickup: "Lugar de Recogida",
-        dropoff: "Lugar de Destino",
-        passengersPlaceholder: "Número de Pasajeros",
-        luggagePlaceholder: "Número de Equipaje",
-        notesPlaceholder: "Peticiones Especiales / Notas",
-        selectVehicle: "Seleccionar Tipo de Vehículo",
-        selectPayment: "Seleccionar Método de Pago",
-        reserve: "Reservar Ahora",
-        optionsVehicle: ["Seleccionar Tipo de Vehículo", "Coche (1-3 pasajeros)", "Furgoneta (4-7 pasajeros)", "Minibús (8-15 pasajeros)"],
-        optionsPayment: ["Seleccionar Método de Pago", "Pagar Online (Depósito/Total)", "Pagar en Efectivo al Conductor"],
-        whatsappMessage: "¡Hola! Me gustaría reservar un traslado:\n\nNombre: ${customerName}\nTeléfono: ${customerPhone}\n\nRecogida: ${pickup}\nDestino: ${dropoff}\nFecha y Hora: ${datetime}\nVehículo: ${vehicleText}\nPasajeros: ${passengers}\nEquipaje: ${luggage}\nNotas: ${notes}\nMétodo de Pago: ${paymentText}",
-        reserveSuccessMessage: "¡Solicitud enviada correctamente! Por favor, completa la conversación en WhatsApp.",
-        reserveErrorMessage: "Hubo un error al enviar tu solicitud. Por favor, inténtalo de nuevo o contáctanos directamente por WhatsApp."
-      },
-      de: {
-        title: "Buche Deinen Premium Transfer",
-        customerNamePlaceholder: "Dein Name",
-        customerPhonePlaceholder: "Deine Telefonnummer (mit Ländervorwahl)",
-        pickup: "Abholort",
-        dropoff: "Zielort",
-        passengersPlaceholder: "Anzahl der Passagiere",
-        luggagePlaceholder: "Anzahl des Gepäcks",
-        notesPlaceholder: "Spezielle Wünsche / Anmerkungen",
-        selectVehicle: "Fahrzeugtyp wählen",
-        selectPayment: "Zahlungsmethode wählen",
-        reserve: "Jetzt Reservieren",
-        optionsVehicle: ["Fahrzeugtyp wählen", "Auto (1-3 Personen)", "Van (4-7 Personen)", "Minibus (8-15 Personen)"],
-        optionsPayment: ["Zahlungsmethode wählen", "Online Bezahlen (Anzahlung/Gesamt)", "Barzahlung beim Fahrer"],
-        whatsappMessage: "Hallo! Ich möchte einen Transfer buchen:\n\nName: ${customerName}\nTelefon: ${customerPhone}\n\nAbholort: ${pickup}\nZielort: ${dropoff}\nDatum & Uhrzeit: ${datetime}\nFahrzeug: ${vehicleText}\nPassagiere: ${passengers}\nGepäck: ${luggage}\nAnmerkungen: ${notes}\nZahlungsmethode: ${paymentText}",
-        reserveSuccessMessage: "Anfrage erfolgreich gesendet! Bitte schließe das Gespräch auf WhatsApp ab.",
-        reserveErrorMessage: "Beim Senden deiner Anfrage ist ein Fehler aufgetreten. Bitte versuche es erneut oder kontaktiere uns direkt über WhatsApp."
-      }
-    };
+        let currentLanguage = 'en';
 
-    function switchLang(lang) {
-      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelector(`[onclick="switchLang('${lang}')"]`).classList.add('active');
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            updateLanguage();
+        }
 
-      currentLang = lang; // Actualiza la variable global del idioma actual
+        function updateLanguage() {
+            const data = productsData[currentLanguage];
+            document.getElementById("title").textContent = data.title;
+            document.getElementById("notesLabel").textContent = data.notesLabel;
+            document.getElementById("fullnameLabel").textContent = data.fullnameLabel;
+            document.getElementById("phoneLabel").textContent = data.phoneLabel;
 
-      document.getElementById('formTitle').textContent = translations[lang].title;
-      document.getElementById('customerName').placeholder = translations[lang].customerNamePlaceholder;
-      document.getElementById('customerPhone').placeholder = translations[lang].customerPhonePlaceholder;
-      document.getElementById('pickup').placeholder = translations[lang].pickup;
-      document.getElementById('dropoff').placeholder = translations[lang].dropoff;
-      document.getElementById('passengers').placeholder = translations[lang].passengersPlaceholder;
-      document.getElementById('luggage').placeholder = translations[lang].luggagePlaceholder;
-      document.getElementById('notes').placeholder = translations[lang].notesPlaceholder;
+            const productsList = document.getElementById('productsList');
+            productsList.innerHTML = '';
 
-      // Update select default options and other options text
-      const vehicleSelect = document.getElementById('vehicle');
-      const optionsVehicle = translations[lang].optionsVehicle;
-       if (vehicleSelect.options.length > 0) {
-           vehicleSelect.options[0].text = translations[lang].selectVehicle;
-            for (let i = 1; i < optionsVehicle.length; i++) { // Empezar desde 1 para no sobreescribir la primera opción
-              if(vehicleSelect.options[i]) {
-                vehicleSelect.options[i].text = optionsVehicle[i];
-              }
+            for (const category in data.categories) {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.classList.add('category');
+                const categoryName = document.createElement('h2');
+                categoryName.textContent = data.categories[category].name;
+                categoryDiv.appendChild(categoryName);
+
+                const select = document.createElement('select');
+                select.setAttribute('name', category);
+                data.categories[category].items.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.name;
+                    option.textContent = `${item.name} - $${item.price} (${item.description})`;
+                    select.appendChild(option);
+                });
+                categoryDiv.appendChild(select);
+                productsList.appendChild(categoryDiv);
             }
-       }
+        }
 
+        // Initial load of the language
+        updateLanguage();
 
-      const paymentSelect = document.getElementById('paymentMethod');
-      const optionsPayment = translations[lang].optionsPayment;
-       if (paymentSelect.options.length > 0) {
-           paymentSelect.options[0].text = translations[lang].selectPayment;
-            for (let i = 1; i < optionsPayment.length; i++) { // Empezar desde 1
-              if(paymentSelect.options[i]) {
-                const originalValue = paymentSelect.options[i].value;
-                paymentSelect.options[i].text = optionsPayment[i];
-                paymentSelect.options[i].value = originalValue;
-              }
-            }
-       }
+        const form = document.getElementById('orderForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const selectedProducts = Array.from(document.querySelectorAll('select')).map(select => {
+                const selectedOption = select.options[select.selectedIndex];
+                return `${selectedOption.value}`;
+            }).join(', ');
 
+            const notes = document.getElementById('notes').value.trim();
+            const fullname = document.getElementById('fullname').value.trim();
+            const phone = document.getElementById('phone').value.trim();
 
-       document.getElementById('reserveBtn').textContent = translations[lang].reserve;
-    }
+            let message = `Hi Massimo! I'd like to order:%0A%0A`;
+            message += `Items: ${selectedProducts}%0A`;
+            if (notes) message += `General Notes: ${notes}%0A%0A`;
+            message += `Full Name: ${fullname}%0A`;
+            message += `Phone: ${phone}%0A%0A`;
+            message += `Please confirm the pickup time. Thank you! 🙏`;
 
-    document.getElementById('bookingForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      // Deshabilitar botón y mostrar mensaje de envío
-      const reserveBtn = document.getElementById('reserveBtn');
-      const originalBtnText = reserveBtn.textContent;
-      reserveBtn.textContent = 'Sending...'; // O un icono de carga
-      reserveBtn.disabled = true;
-      const responseMessage = document.getElementById('responseMessage');
-      responseMessage.textContent = ''; // Limpiar mensaje previo
-      responseMessage.style.display = 'none';
-
-
-      // 1. Recoger todos los datos del formulario
-      const customerName = document.getElementById('customerName').value;
-      const customerPhone = document.getElementById('customerPhone').value;
-      const pickup = document.getElementById('pickup').value;
-      const dropoff = document.getElementById('dropoff').value;
-      const datetime = document.getElementById('datetime').value;
-      const vehicleSelect = document.getElementById('vehicle');
-      const vehicleValue = vehicleSelect.value;
-      const vehicleText = vehicleSelect.options[vehicleSelect.selectedIndex].text;
-      const passengers = document.getElementById('passengers').value;
-      const luggage = document.getElementById('luggage').value || '0';
-      const notes = document.getElementById('notes').value || 'N/A';
-      const paymentSelect = document.getElementById('paymentMethod');
-      const paymentValue = paymentSelect.value;
-      const paymentText = paymentSelect.options[paymentSelect.selectedIndex].text;
-
-      // 2. Preparar los datos para enviar al registro centralizado (Google Sheet)
-      const formDataForSheet = {
-        'Nombre Cliente': customerName,
-        'Teléfono Cliente': customerPhone,
-        'Origen': pickup,
-        'Destino': dropoff,
-        'Fecha y Hora': datetime,
-        'Tipo Vehículo (Valor)': vehicleValue,
-        'Tipo Vehículo (Texto)': vehicleText,
-        'Pasajeros': passengers,
-        'Equipaje': luggage,
-        'Notas': notes,
-        'Método Pago (Valor)': paymentValue,
-        'Método Pago (Texto)': paymentText,
-        'Idioma Form': currentLang,
-        // 'Timestamp': new Date().toISOString() // Es mejor generar el timestamp en el script de Apps Script, es más fiable
-      };
-
-      // 3. Enviar datos al Google Apps Script (registro centralizado)
-      // Asegúrate de haber reemplazado 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE' con TU URL real
-      if (GOOGLE_APPS_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE' || !GOOGLE_APPS_SCRIPT_URL) {
-          console.error("ERROR: Google Apps Script URL is not set!");
-           responseMessage.textContent = translations[currentLang].reserveErrorMessage + " (Configuration Error)";
-           responseMessage.style.color = '#ff0000';
-           responseMessage.style.display = 'block';
-           reserveBtn.textContent = originalBtnText;
-           reserveBtn.disabled = false;
-          return; // Detener el envío si la URL no está configurada
-      }
-
-      fetch(GOOGLE_APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formDataForSheet)
-      })
-      .then(() => {
-        // 4. Si el envío al script fue "exitoso" (o al menos iniciado en no-cors)
-        // Ahora abrimos WhatsApp
-        const whatsappNumber = '34631690524'; // Tu número de WhatsApp
-        const messageTemplate = translations[currentLang].whatsappMessage;
-        const whatsappMessage = messageTemplate
-            .replace('${customerName}', customerName)
-            .replace('${customerPhone}', customerPhone)
-            .replace('${pickup}', pickup)
-            .replace('${dropoff}', dropoff)
-            .replace('${datetime}', datetime)
-            .replace('${vehicleText}', vehicleText)
-            .replace('${passengers}', passengers)
-            .replace('${luggage}', luggage)
-            .replace('${notes}', notes)
-            .replace('${paymentText}', paymentText);
-
-        // Pequeño retraso antes de abrir WhatsApp para que el usuario vea el mensaje de "Sending..."
-         setTimeout(() => {
-             window.open(`https://wa.me/${+34644075065}?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
-
-              // Mostrar mensaje de éxito en la web
-              responseMessage.textContent = translations[currentLang].reserveSuccessMessage;
-              responseMessage.style.color = '#00ff00';
-              responseMessage.style.display = 'block';
-
-               // Restaurar botón
-               reserveBtn.textContent = originalBtnText;
-               reserveBtn.disabled = false;
-         }, 500); // 500ms de retraso
-
-
-      })
-      .catch(error => {
-        console.error('Error sending data to sheet:', error);
-         // En caso de error al enviar a la sheet, al menos intentamos abrir WhatsApp
-         const whatsappNumber = '34631690524'; // Tu número de WhatsApp
-         const messageTemplate = translations[currentLang].whatsappMessage;
-         const whatsappMessage = messageTemplate
-             .replace('${customerName}', customerName)
-             .replace('${customerPhone}', customerPhone)
-             .replace('${pickup}', pickup)
-             .replace('${dropoff}', dropoff)
-             .replace('${datetime}', datetime)
-             .replace('${vehicleText}', vehicleText)
-             .replace('${passengers}', passengers)
-             .replace('${luggage}', luggage)
-             .replace('${notes}', notes)
-             .replace('${paymentText}', paymentText);
-
-         // Mostrar mensaje de error en la web inmediatamente
-         responseMessage.textContent = translations[currentLang].reserveErrorMessage;
-         responseMessage.style.color = '#ff0000';
-         responseMessage.style.display = 'block';
-
-
-         // Intentar abrir WhatsApp después de mostrar el error
-         setTimeout(() => {
-            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
-            // Restaurar botón
-            reserveBtn.textContent = originalBtnText;
-            reserveBtn.disabled = false;
-         }, 500); // 500ms de retraso
-
-      });
-    });
-
-    // Inicializa el formulario con el idioma por defecto (inglés)
-    switchLang('en');
-  </script>
+            window.location.href = `https://wa.me/34611260259?text=${message}`;
+        });
+    </script>
 </body>
 </html>
