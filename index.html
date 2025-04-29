@@ -1,189 +1,198 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Order from Massimo Pizza 🍕</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f4f4f4;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .language-selector {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .language-selector button {
-      padding: 10px 20px;
-      margin: 5px;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    .language-selector button.active {
-      background-color: #007BFF;
-      color: white;
-    }
-    form {
-      background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 16px;
-    }
-    button.btn {
-      width: 100%;
-      padding: 12px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-size: 18px;
-      cursor: pointer;
-    }
-    button.btn:hover {
-      background-color: #218838;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Massimo Pizza – Order Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        form {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        label {
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        select,
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #444;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            appearance: none;
+            transition: border-color 0.3s;
+        }
+
+        select:focus,
+        input:focus,
+        textarea:focus {
+            border-color: #8a2be2;
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn {
+            position: relative;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            border: 2px solid #444;
+            border-radius: 16px;
+            background: #000; /* Black background */
+            cursor: pointer;
+            transition: color 0.3s, background 0.3s;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 16px;
+            background: linear-gradient(45deg, #008C45, #F4F5F0, #CD212A);
+            z-index: -1;
+            transition: box-shadow 0.3s;
+        }
+
+        .btn:hover {
+            color: #000;
+            background: rgba(255, 255, 255, 0.1); /* Light white background on hover */
+        }
+
+        .btn:hover::before {
+            box-shadow: 0 0 10px rgba(0, 140, 69, .7), 0 0 20px rgba(205, 33, 42, .7);
+        }
+
+        .product {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product input[type="number"] {
+            width: 80px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Order from Massimo Pizza 🍕</h1>
-  
-  <div class="language-selector">
-    <button type="button" class="active" data-lang="es">Español</button>
-    <button type="button" data-lang="en">English</button>
-    <button type="button" data-lang="fr">Français</button>
-    <button type="button" data-lang="it">Italiano</button>
-    <button type="button" data-lang="de">Deutsch</button>
-  </div>
-  
-  <form id="orderForm">
-    <div id="productsList"></div>
+    <h1>Order from Massimo Pizza 🍕!</h1>
+    <form id="orderForm">
+        <div id="productsList"></div>
 
-    <label for="notes" id="notesLabel">Indicaciones adicionales</label>
-    <textarea id="notes" placeholder="Ejemplo: Extra de queso, recogida a las 21:30"></textarea>
+        <label for="notes">General notes / Special instructions</label>
+        <textarea id="notes" placeholder="Example: Extra cheese, pick up at 9:30 PM"></textarea>
 
-    <label for="fullname" id="fullnameLabel">Nombre completo</label>
-    <input type="text" id="fullname" placeholder="Tu nombre completo" required>
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" placeholder="Your full name" required>
 
-    <label for="phone" id="phoneLabel">Número de teléfono</label>
-    <input type="tel" id="phone" placeholder="ej. +34601234567" required>
+        <label for="phone">Your phone number</label>
+        <input type="tel" id="phone" placeholder="Ex. +34601234567" required>
 
-    <button type="submit" class="btn" id="submitBtn">Enviar pedido por WhatsApp</button>
-  </form>
+        <button type="submit" class="btn">Send order via WhatsApp</button>
+    </form>
 
-  <script>
-    const menuData = {
-      "es": {
-        "formLabels": {
-          "notes": "Indicaciones adicionales",
-          "notesPlaceholder": "Ejemplo: Extra de queso, recogida a las 21:30",
-          "fullname": "Nombre completo",
-          "fullnamePlaceholder": "Tu nombre completo",
-          "phone": "Número de teléfono",
-          "phonePlaceholder": "ej. +34601234567",
-          "submit": "Enviar pedido por WhatsApp",
-          "multipleHelper": "Mantén Ctrl para seleccionar múltiples opciones"
-        },
-        "categories": {
-          "Pizza": [
-            { name: "Margherita", description: "Salsa de tomate, mozzarella, albahaca u orégano", price: 7 },
-            { name: "Marinara", description: "Salsa de tomate, ajo fresco, orégano, AOVE", price: 7 },
-            { name: "Diavola", description: "Salsa de tomate, mozzarella, chorizo picante", price: 9 },
-            { name: "Prosciutto e Funghi", description: "Salsa de tomate, jamón cocido, champiñones", price: 9 },
-            { name: "Quattro Formaggi", description: "Salsa de tomate, mozzarella, gorgonzola, cheddar, gouda", price: 10 },
-            { name: "Pepperoni", description: "Salsa de tomate, mozzarella, pepperoni", price: 9 },
-            { name: "Atún y Cebolla", description: "Salsa de tomate, mozzarella, atún, cebolla roja", price: 9 },
-            { name: "Hawaiana", description: "Salsa de tomate, mozzarella, jamón cocido, piña", price: 9 },
-            { name: "Caprichosa", description: "Salsa de tomate, mozzarella, jamón cocido, huevo", price: 10 },
-            { name: "Napolitana", description: "Salsa de tomate, mozzarella, anchoas, orégano, alcaparras", price: 9 },
-            { name: "Vegetariana", description: "Salsa de tomate, mozzarella, calabacín, berenjena, pimiento, champiñones, albahaca", price: 9 }
-          ],
-          // More categories...
-        }
-      },
-      "en": {
-        "formLabels": {
-          "notes": "General Notes / Extra Instructions",
-          "notesPlaceholder": "Example: Extra cheese, pickup at 9:30PM",
-          "fullname": "Full Name",
-          "fullnamePlaceholder": "Your Full Name",
-          "phone": "Your Phone Number",
-          "phonePlaceholder": "e.g. +34601234567",
-          "submit": "Send Order via WhatsApp",
-          "multipleHelper": "Hold Ctrl to select multiple options"
-        },
-        "categories": {
-          "Pizza": [
-            { name: "Margherita", description: "Tomato sauce, mozzarella, basil or oregano", price: 7 },
-            { name: "Marinara", description: "Tomato sauce, fresh garlic, oregano, EVOO", price: 7 },
-            { name: "Diavola", description: "Tomato sauce, mozzarella, spicy salami", price: 9 },
-            { name: "Prosciutto e Funghi", description: "Tomato sauce, cooked ham, mushrooms", price: 9 },
-            { name: "Four Cheese", description: "Tomato sauce, mozzarella, gorgonzola, cheddar, gouda", price: 10 },
-            { name: "Pepperoni", description: "Tomato sauce, mozzarella, pepperoni", price: 9 },
-            { name: "Tuna & Onion", description: "Tomato sauce, mozzarella, tuna, red onion", price: 9 },
-            { name: "Hawaiian", description: "Tomato sauce, mozzarella, cooked ham, pineapple", price: 9 },
-            { name: "Capricciosa", description: "Tomato sauce, mozzarella, cooked ham, egg", price: 10 },
-            { name: "Neapolitan", description: "Tomato sauce, mozzarella, anchovies, oregano, capers", price: 9 },
-            { name: "Vegetarian", description: "Tomato sauce, mozzarella, zucchini, eggplant, bell pepper, mushrooms, basil", price: 9 }
-          ],
-          // More categories...
-        }
-      },
-      // More languages...
-    };
+    <script>
+        (function() {
+            const products = [
+                "Margherita", "Marinara", "Diavola", "Prosciutto e Funghi", "Quattro Formaggi",
+                "Pepperoni", "Tuna & Onion", "Hawaiian", "Capricciosa", "Napoli", "Vegetarian",
+                "Carbonara", "Mimosa", "Boscaiola", "Vegetarian Bianca", "Mallorquina",
+                "Italian Classic", "Carnívora", "Cecina", "6 Cheeses", "Garlic Bread", "French Fries",
+                "Onion Rings", "Chicken Nuggets", "Chicken Fingers", "Chicken Wings",
+                "Classic Beef Burger", "Double Beef Burger", "Beef Burger With Cheese",
+                "Crispy Bacon Beef Burger", "Massimo’s Beef Burger", "Classic Chicken Burger",
+                "Double Chicken Burger", "Chicken Burger With Cheese", "Crispy Bacon Chicken Burger",
+                "Massimo’s Chicken Burger", "Veggie Burger", "Veggie Burger With Cheese",
+                "Grilled Chicken Wrap", "Crispy Chicken Wrap", "Vegetarian Wrap", "Tuna Wrap",
+                "Caprese Panuozzo", "Serrano Panuozzo", "Vegetarian Panuozzo", "Classic Calzone",
+                "Capricciosa Calzone", "Meat Lover Calzone", "Vegetarian Calzone",
+                "Lasagna Bolognese", "Spaghetti & Meatballs", "Eggplant Parmigiana",
+                "Tiramisù", "Chocolate Crostata", "Jam Crostata", "Nutella Pizza"
+            ];
 
-    let currentLang = "es";
+            const productsList = document.getElementById('productsList');
+            products.forEach(product => {
+                const div = document.createElement('div');
+                div.className = 'product';
+                div.innerHTML = `<label>${product}</label><input type="number" min="0" value="0" name="${product}">`;
+                productsList.appendChild(div);
+            });
 
-    const languageButtons = document.querySelectorAll('.language-selector button');
-    languageButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        currentLang = button.getAttribute('data-lang');
-        updateLanguage();
-      });
-    });
+            const form = document.getElementById('orderForm');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const selectedProducts = Array.from(document.querySelectorAll('.product input'))
+                    .filter(input => input.value > 0)
+                    .map(input => `${input.value}x ${input.name}`)
+                    .join(', ');
 
-    function updateLanguage() {
-      document.documentElement.lang = currentLang;
-      const labels = menuData[currentLang].formLabels;
+                const notes = document.getElementById('notes').value.trim();
+                const fullname = document.getElementById('fullname').value.trim();
+                const phone = document.getElementById('phone').value.trim();
 
-      document.getElementById('notesLabel').textContent = labels.notes;
-      document.getElementById('fullnameLabel').textContent = labels.fullname;
-      document.getElementById('phoneLabel').textContent = labels.phone;
-      document.getElementById('submitBtn').textContent = labels.submit;
-      document.getElementById('notes').placeholder = labels.notesPlaceholder;
-      document.getElementById('fullname').placeholder = labels.fullnamePlaceholder;
-      document.getElementById('phone').placeholder = labels.phonePlaceholder;
-      document.querySelector('.language-selector button.active').classList.remove('active');
-      const activeButton = [...languageButtons].find(button => button.getAttribute('data-lang') === currentLang);
-      activeButton.classList.add('active');
+                let message = `Hello Massimo! I would like to place an order:%0A%0A`;
+                message += `Products: ${selectedProducts}%0A`;
+                if (notes) message += `General notes: ${notes}%0A%0A`;
+                message += `Full Name: ${fullname}%0A`;
+                message += `Phone: ${phone}%0A%0A`;
+                message += `Please confirm the pickup time! Thank you! 🙏`;
 
-      // Update products list dynamically (omitted here for brevity)
-    }
-
-    // Initialize
-    updateLanguage();
-  </script>
+                window.location.href = `https://wa.me/34611260259?text=${message}`;
+            });
+        })();
+    </script>
 </body>
 </html>
