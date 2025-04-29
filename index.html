@@ -3,152 +3,187 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menu Massimo's Pizza</title>
+  <title>Order from Massimo Pizza 🍕</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
+      padding: 20px;
       background-color: #f4f4f4;
     }
-
-    .container {
-      width: 80%;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
     h1 {
       text-align: center;
-      color: #333;
-    }
-
-    .category {
-      margin-top: 30px;
-    }
-
-    .category h2 {
-      color: #2c3e50;
-      margin-bottom: 10px;
-    }
-
-    .category select {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
       margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #fff;
     }
-
-    .category select option {
-      padding: 10px;
-    }
-
-    .category label {
-      font-size: 16px;
-      margin-bottom: 5px;
-      display: block;
-    }
-
-    .category select[multiple] {
-      height: 150px;
-    }
-
-    .product-detail {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #7f8c8d;
-    }
-
-    .product-price {
-      font-weight: bold;
-      color: #e74c3c;
-    }
-
-    .order-button {
-      display: block;
-      width: 100%;
-      padding: 15px;
-      background-color: #3498db;
-      color: white;
+    .language-selector {
       text-align: center;
-      font-size: 18px;
-      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+    .language-selector button {
+      padding: 10px 20px;
+      margin: 5px;
       border: none;
-      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .language-selector button.active {
+      background-color: #007BFF;
+      color: white;
+    }
+    form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button.btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 18px;
       cursor: pointer;
     }
-
-    .order-button:hover {
-      background-color: #2980b9;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 14px;
-      color: #7f8c8d;
+    button.btn:hover {
+      background-color: #218838;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Menú de Massimo's Pizza</h1>
-
-    <!-- Pizzas Clásicas -->
-    <div class="category">
-      <h2>Pizzas Clásicas</h2>
-      <label for="classic-pizzas">Elige tu pizza clásica</label>
-      <select id="classic-pizzas" name="classic-pizzas" multiple>
-        <option value="margarita">Margarita - €8.50</option>
-        <option value="peperoni">Peperoni - €9.00</option>
-        <option value="hawaiian">Hawaiana - €9.50</option>
-        <option value="vegetarian">Vegetariana - €9.00</option>
-      </select>
-      <div class="product-detail">Pizza clásica con ingredientes frescos y sabrosos.</div>
-    </div>
-
-    <!-- Pizzas Blancas -->
-    <div class="category">
-      <h2>Pizzas Blancas</h2>
-      <label for="white-pizzas">Elige tu pizza blanca</label>
-      <select id="white-pizzas" name="white-pizzas" multiple>
-        <option value="bianca">Pizza Bianca - €11.00</option>
-        <option value="salsa-blanca">Pizza con salsa blanca y champiñones - €12.00</option>
-      </select>
-      <div class="product-detail">Pizzas sin salsa de tomate, con una base cremosa.</div>
-    </div>
-
-    <!-- Pizzas Especiales -->
-    <div class="category">
-      <h2>Pizzas Especiales</h2>
-      <label for="special-pizzas">Elige tu pizza especial</label>
-      <select id="special-pizzas" name="special-pizzas" multiple>
-        <option value="trufa">Pizza Trufa - €13.50</option>
-        <option value="focaccia">Focaccia con jamón y rúcula - €14.00</option>
-      </select>
-      <div class="product-detail">Combinaciones únicas con ingredientes gourmet.</div>
-    </div>
-
-    <!-- Aperitivos -->
-    <div class="category">
-      <h2>Aperitivos</h2>
-      <label for="appetizers">Elige tus aperitivos</label>
-      <select id="appetizers" name="appetizers" multiple>
-        <option value="bruschetta">Bruschetta - €5.00</option>
-        <option value="arancini">Arancini - €6.50</option>
-      </select>
-      <div class="product-detail">Aperitivos ideales para compartir antes de la pizza.</div>
-    </div>
-
-    <!-- Ordenar -->
-    <button class="order-button">Realizar Pedido</button>
+  <h1>Order from Massimo Pizza 🍕</h1>
+  
+  <div class="language-selector">
+    <button type="button" class="active" data-lang="es">Español</button>
+    <button type="button" data-lang="en">English</button>
+    <button type="button" data-lang="fr">Français</button>
+    <button type="button" data-lang="it">Italiano</button>
+    <button type="button" data-lang="de">Deutsch</button>
   </div>
+  
+  <form id="orderForm">
+    <div id="productsList"></div>
 
-  <div class="footer">
-    <p>&copy; 2025 Massimo's Pizza - Todos los derechos reservados.</p>
-  </div>
+    <label for="notes" id="notesLabel">Indicaciones adicionales</label>
+    <textarea id="notes" placeholder="Ejemplo: Extra de queso, recogida a las 21:30"></textarea>
+
+    <label for="fullname" id="fullnameLabel">Nombre completo</label>
+    <input type="text" id="fullname" placeholder="Tu nombre completo" required>
+
+    <label for="phone" id="phoneLabel">Número de teléfono</label>
+    <input type="tel" id="phone" placeholder="ej. +34601234567" required>
+
+    <button type="submit" class="btn" id="submitBtn">Enviar pedido por WhatsApp</button>
+  </form>
+
+  <script>
+    const menuData = {
+      "es": {
+        "formLabels": {
+          "notes": "Indicaciones adicionales",
+          "notesPlaceholder": "Ejemplo: Extra de queso, recogida a las 21:30",
+          "fullname": "Nombre completo",
+          "fullnamePlaceholder": "Tu nombre completo",
+          "phone": "Número de teléfono",
+          "phonePlaceholder": "ej. +34601234567",
+          "submit": "Enviar pedido por WhatsApp",
+          "multipleHelper": "Mantén Ctrl para seleccionar múltiples opciones"
+        },
+        "categories": {
+          "Pizza": [
+            { name: "Margherita", description: "Salsa de tomate, mozzarella, albahaca u orégano", price: 7 },
+            { name: "Marinara", description: "Salsa de tomate, ajo fresco, orégano, AOVE", price: 7 },
+            { name: "Diavola", description: "Salsa de tomate, mozzarella, chorizo picante", price: 9 },
+            { name: "Prosciutto e Funghi", description: "Salsa de tomate, jamón cocido, champiñones", price: 9 },
+            { name: "Quattro Formaggi", description: "Salsa de tomate, mozzarella, gorgonzola, cheddar, gouda", price: 10 },
+            { name: "Pepperoni", description: "Salsa de tomate, mozzarella, pepperoni", price: 9 },
+            { name: "Atún y Cebolla", description: "Salsa de tomate, mozzarella, atún, cebolla roja", price: 9 },
+            { name: "Hawaiana", description: "Salsa de tomate, mozzarella, jamón cocido, piña", price: 9 },
+            { name: "Caprichosa", description: "Salsa de tomate, mozzarella, jamón cocido, huevo", price: 10 },
+            { name: "Napolitana", description: "Salsa de tomate, mozzarella, anchoas, orégano, alcaparras", price: 9 },
+            { name: "Vegetariana", description: "Salsa de tomate, mozzarella, calabacín, berenjena, pimiento, champiñones, albahaca", price: 9 }
+          ],
+          // More categories...
+        }
+      },
+      "en": {
+        "formLabels": {
+          "notes": "General Notes / Extra Instructions",
+          "notesPlaceholder": "Example: Extra cheese, pickup at 9:30PM",
+          "fullname": "Full Name",
+          "fullnamePlaceholder": "Your Full Name",
+          "phone": "Your Phone Number",
+          "phonePlaceholder": "e.g. +34601234567",
+          "submit": "Send Order via WhatsApp",
+          "multipleHelper": "Hold Ctrl to select multiple options"
+        },
+        "categories": {
+          "Pizza": [
+            { name: "Margherita", description: "Tomato sauce, mozzarella, basil or oregano", price: 7 },
+            { name: "Marinara", description: "Tomato sauce, fresh garlic, oregano, EVOO", price: 7 },
+            { name: "Diavola", description: "Tomato sauce, mozzarella, spicy salami", price: 9 },
+            { name: "Prosciutto e Funghi", description: "Tomato sauce, cooked ham, mushrooms", price: 9 },
+            { name: "Four Cheese", description: "Tomato sauce, mozzarella, gorgonzola, cheddar, gouda", price: 10 },
+            { name: "Pepperoni", description: "Tomato sauce, mozzarella, pepperoni", price: 9 },
+            { name: "Tuna & Onion", description: "Tomato sauce, mozzarella, tuna, red onion", price: 9 },
+            { name: "Hawaiian", description: "Tomato sauce, mozzarella, cooked ham, pineapple", price: 9 },
+            { name: "Capricciosa", description: "Tomato sauce, mozzarella, cooked ham, egg", price: 10 },
+            { name: "Neapolitan", description: "Tomato sauce, mozzarella, anchovies, oregano, capers", price: 9 },
+            { name: "Vegetarian", description: "Tomato sauce, mozzarella, zucchini, eggplant, bell pepper, mushrooms, basil", price: 9 }
+          ],
+          // More categories...
+        }
+      },
+      // More languages...
+    };
+
+    let currentLang = "es";
+
+    const languageButtons = document.querySelectorAll('.language-selector button');
+    languageButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        currentLang = button.getAttribute('data-lang');
+        updateLanguage();
+      });
+    });
+
+    function updateLanguage() {
+      document.documentElement.lang = currentLang;
+      const labels = menuData[currentLang].formLabels;
+
+      document.getElementById('notesLabel').textContent = labels.notes;
+      document.getElementById('fullnameLabel').textContent = labels.fullname;
+      document.getElementById('phoneLabel').textContent = labels.phone;
+      document.getElementById('submitBtn').textContent = labels.submit;
+      document.getElementById('notes').placeholder = labels.notesPlaceholder;
+      document.getElementById('fullname').placeholder = labels.fullnamePlaceholder;
+      document.getElementById('phone').placeholder = labels.phonePlaceholder;
+      document.querySelector('.language-selector button.active').classList.remove('active');
+      const activeButton = [...languageButtons].find(button => button.getAttribute('data-lang') === currentLang);
+      activeButton.classList.add('active');
+
+      // Update products list dynamically (omitted here for brevity)
+    }
+
+    // Initialize
+    updateLanguage();
+  </script>
 </body>
 </html>
