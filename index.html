@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       background: #000;
       color: #fff;
@@ -19,13 +18,31 @@
       padding: 20px;
       text-align: center;
     }
-
     h1 {
       font-size: 2rem;
       font-weight: 700;
       margin-bottom: 30px;
     }
-
+    .lang-switcher {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .lang-btn {
+      border: 2px solid #555;
+      padding: 8px 16px;
+      margin: 0 8px;
+      border-radius: 12px;
+      background: transparent;
+      color: #ccc;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+    .lang-btn.active {
+      background: #fff;
+      color: #000;
+    }
     form {
       width: 100%;
       max-width: 500px;
@@ -36,13 +53,10 @@
       transform: translateY(20px);
       animation: fadeInUp 0.6s ease-out forwards;
     }
-
     @keyframes fadeInUp {
       to { opacity: 1; transform: translateY(0); }
     }
-
     label { font-size: 1rem; text-align: left; }
-
     select, input, textarea {
       width: 100%;
       padding: 10px;
@@ -55,14 +69,11 @@
       appearance: none;
       transition: border-color 0.3s;
     }
-
     select:focus, input:focus, textarea:focus {
       border-color: #8a2be2;
       outline: none;
     }
-
     textarea { resize: vertical; min-height: 80px; }
-
     .btn {
       position: relative;
       padding: 15px 20px;
@@ -76,7 +87,6 @@
       cursor: pointer;
       transition: color 0.3s, background 0.3s;
     }
-
     .btn::before {
       content: '';
       position: absolute;
@@ -86,116 +96,115 @@
       z-index: -1;
       transition: box-shadow 0.3s;
     }
-
     .btn:hover {
       color: #000;
       background: rgba(255, 255, 255, 0.1);
     }
-
     .btn:hover::before {
       box-shadow: 0 0 10px rgba(0, 140, 69, .7), 0 0 20px rgba(205, 33, 42, .7);
     }
-
     .added-products {
       text-align: left;
     }
   </style>
 </head>
 <body>
-  <h1>Order from Massimo Pizza 🍕!</h1>
-  <form id="orderForm">
-    <label for="productSelect">Choose a product</label>
-    <select id="productSelect">
-      <option value="">-- Select a product --</option>
-    </select>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+    <button class="lang-btn" onclick="switchLang('es')">ES</button>
+    <button class="lang-btn" onclick="switchLang('de')">DE</button>
+  </div>
 
-    <label for="quantity">Quantity</label>
+  <h1 id="form-title">Order from Massimo Pizza 🍕!</h1>
+  <form id="orderForm">
+    <label id="label-product" for="productSelect">Choose a product</label>
+    <select id="productSelect"></select>
+
+    <label id="label-quantity" for="quantity">Quantity</label>
     <input type="number" id="quantity" min="1" value="1"/>
 
     <button type="button" class="btn" onclick="addProduct()">Add to Order</button>
 
     <div class="added-products" id="addedProductsList"></div>
+    <p id="totalDisplay"><strong>Total: €0.00</strong></p>
 
-    <label for="notes">General notes / Special instructions</label>
+    <label id="label-notes" for="notes">General notes / Special instructions</label>
     <textarea id="notes" placeholder="Example: Extra cheese, pick up at 9:30 PM"></textarea>
 
-    <label for="fullname">Full Name</label>
+    <label id="label-fullname" for="fullname">Full Name</label>
     <input type="text" id="fullname" placeholder="Your full name" required/>
 
-    <label for="phone">Your phone number</label>
+    <label id="label-phone" for="phone">Your phone number</label>
     <input type="tel" id="phone" placeholder="Ex. +34601234567" required/>
 
     <button type="submit" class="btn">Send order via WhatsApp</button>
   </form>
 
   <script>
+    const productsData = {
+      "Margherita": 7, "Marinara": 7, "Diavola": 9, "Prosciutto e Funghi": 9, "Quattro Formaggi": 10, "Pepperoni": 9,
+      "Tuna & Onion": 9, "Hawaiian": 9, "Capricciosa": 10, "Napoli": 9, "Vegetarian": 9,
+      "Carbonara": 10, "Mimosa": 9, "Boscaiola": 9, "Vegetarian Bianca": 10,
+      "Mallorquina": 11, "Italian Classic": 12, "Carnívora": 13, "Cecina": 12, "6 Cheeses": 12,
+      "Garlic Bread": 4, "French Fries": 4, "Onion Rings (7)": 5, "Chicken Nuggets (7)": 5,
+      "Chicken Fingers (7)": 5, "Chicken Wings (7)": 6,
+      "Classic": 7, "Double": 9, "With Cheese": 8, "Double with Cheese": 10, "Crispy Bacon": 9,
+      "Double Crispy Bacon": 11, "Massimo’s": 12, "Massimo’s Double": 14,
+      "Classic Chicken": 7, "Double Chicken": 9, "With Cheese Chicken": 8, "Double with Cheese Chicken": 10,
+      "Crispy Bacon Chicken": 9, "Double Crispy Bacon Chicken": 11, "Massimo’s Chicken": 12, "Massimo’s Chicken Double": 14,
+      "Veggie": 7, "With Cheese Veggie": 8,
+      "Grilled Chicken": 7, "Crispy Chicken": 7, "Vegetarian Wrap": 7, "Tuna": 7,
+      "Caprese": 8, "Serrano": 9, "Vegetarian Panuozzo": 8,
+      "Classic Calzone": 9, "Capricciosa Calzone": 9, "Meat Lover": 11, "Vegetarian Calzone": 9,
+      "Lasagna Bolognese": 10, "Spaghetti & Meatballs": 10, "Eggplant Parmigiana": 9,
+      "Tiramisù": 5, "Chocolate Crostata": 4.5, "Jam Crostata": 4.5, "Nutella Pizza": 6
+    };
+
     const categories = {
       "Pizza": ["Margherita", "Marinara", "Diavola", "Prosciutto e Funghi", "Quattro Formaggi", "Pepperoni", "Tuna & Onion", "Hawaiian", "Capricciosa", "Napoli", "Vegetarian"],
       "White Pizza": ["Carbonara", "Mimosa", "Boscaiola", "Vegetarian Bianca"],
       "Special Pizza": ["Mallorquina", "Italian Classic", "Carnívora", "Cecina", "6 Cheeses"],
       "Appetizer": ["Garlic Bread", "French Fries", "Onion Rings (7)", "Chicken Nuggets (7)", "Chicken Fingers (7)", "Chicken Wings (7)"],
       "Beef Burger": ["Classic", "Double", "With Cheese", "Double with Cheese", "Crispy Bacon", "Double Crispy Bacon", "Massimo’s", "Massimo’s Double"],
-      "Chicken Burger": ["Classic Chicken", "Double Chicken", "With Cheese", "Double with Cheese", "Crispy Bacon", "Double Crispy Bacon", "Massimo’s Chicken", "Massimo’s Chicken Double"],
-      "Veggie Burger": ["Veggie", "With Cheese"],
-      "Wrap": ["Grilled Chicken", "Crispy Chicken", "Vegetarian", "Tuna"],
-      "Panuozzo": ["Caprese", "Serrano", "Vegetarian"],
-      "Calzone": ["Classic", "Capricciosa", "Meat Lover", "Vegetarian"],
+      "Chicken Burger": ["Classic Chicken", "Double Chicken", "With Cheese Chicken", "Double with Cheese Chicken", "Crispy Bacon Chicken", "Double Crispy Bacon Chicken", "Massimo’s Chicken", "Massimo’s Chicken Double"],
+      "Veggie Burger": ["Veggie", "With Cheese Veggie"],
+      "Wrap": ["Grilled Chicken", "Crispy Chicken", "Vegetarian Wrap", "Tuna"],
+      "Panuozzo": ["Caprese", "Serrano", "Vegetarian Panuozzo"],
+      "Calzone": ["Classic Calzone", "Capricciosa Calzone", "Meat Lover", "Vegetarian Calzone"],
       "Homemade Dish": ["Lasagna Bolognese", "Spaghetti & Meatballs", "Eggplant Parmigiana"],
       "Dessert": ["Tiramisù", "Chocolate Crostata", "Jam Crostata", "Nutella Pizza"]
     };
 
     const productSelect = document.getElementById("productSelect");
     const addedProductsList = document.getElementById("addedProductsList");
-    const form = document.getElementById("orderForm");
-    let orderItems = [];
+    const totalDisplay = document.getElementById("totalDisplay");
+    let total = 0;
 
-    for (const [category, items] of Object.entries(categories)) {
+    for (const category in categories) {
       const optgroup = document.createElement("optgroup");
       optgroup.label = category;
-      items.forEach(name => {
+      categories[category].forEach(product => {
         const option = document.createElement("option");
-        option.value = name;
-        option.textContent = name;
+        option.value = product;
+        option.textContent = `${product} (€${productsData[product] || 0})`;
         optgroup.appendChild(option);
       });
       productSelect.appendChild(optgroup);
     }
 
     function addProduct() {
-      const selected = productSelect.value;
-      const qty = parseInt(document.getElementById("quantity").value);
-      if (selected && qty > 0) {
-        orderItems.push({ name: selected, qty });
-        renderOrderItems();
+      const product = document.getElementById('productSelect').value;
+      const quantity = parseInt(document.getElementById('quantity').value);
+      if (product && quantity > 0) {
+        const price = productsData[product] || 0;
+        const subtotal = price * quantity;
+        total += subtotal;
+        const item = document.createElement('p');
+        item.textContent = `${quantity}x ${product} (€${price}) = €${subtotal.toFixed(2)}`;
+        addedProductsList.appendChild(item);
+        totalDisplay.innerHTML = `<strong>Total: €${total.toFixed(2)}</strong>`;
       }
     }
-
-    function renderOrderItems() {
-      addedProductsList.innerHTML = `<strong>Items:</strong><ul>` +
-        orderItems.map(item => `<li>${item.qty}x ${item.name}</li>`).join("") +
-        `</ul>`;
-    }
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      if (orderItems.length === 0) {
-        alert("Please add at least one product.");
-        return;
-      }
-
-      const notes = document.getElementById('notes').value.trim();
-      const fullname = document.getElementById('fullname').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-
-      let message = `Hello Massimo! I would like to place an order:%0A%0A`;
-      message += `Products: ${orderItems.map(i => `${i.qty}x ${i.name}`).join(', ')}%0A`;
-      if (notes) message += `General notes: ${notes}%0A%0A`;
-      message += `Full Name: ${fullname}%0A`;
-      message += `Phone: ${phone}%0A%0A`;
-      message += `Please confirm the pickup time! Thank you! 🙏`;
-
-      window.location.href = `https://wa.me/34611260259?text=${message}`;
-    });
   </script>
 </body>
 </html>
