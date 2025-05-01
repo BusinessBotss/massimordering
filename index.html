@@ -88,6 +88,7 @@
         <div class="field"><label for="notes">General Notes</label><textarea id="notes" placeholder="e.g. extra cheese, no onions"></textarea></div>
         <div class="field"><label for="fullname">Full Name</label><input type="text" id="fullname" placeholder="Your Name" required></div>
         <div class="field"><label for="phone">Phone Number</label><input type="tel" id="phone" placeholder="+34611260259" required></div>
+        <div class="field"><label for="payment">Payment Method</label><select id="payment" required><option value="Cash">Cash</option><option value="Card">Card</option></select></div>
       </div>
 
       <button type="submit" class="btn">Send via WhatsApp</button>
@@ -167,8 +168,10 @@
         const notes = document.getElementById('notes').value.trim();
         const name = document.getElementById('fullname').value.trim();
         const phone = document.getElementById('phone').value.trim();
+        const payment = document.getElementById('payment').value;
         let msg = `Hi Massimo! I'd like to order:%0A${itemsText}%0ATotal: €${total.toFixed(2)}%0A`;
         if(notes) msg += `%0ANotes: ${notes}%0A`;
+        msg += `%0APayment Method: ${payment}%0A`;
         msg += `%0AName: ${name}%0APhone: ${phone}%0A%0APlease confirm pickup time. 🙏`;
         window.location.href = `https://wa.me/34611260259?text=${msg}`;
       });
@@ -176,3 +179,4 @@
   </script>
 </body>
 </html>
+
