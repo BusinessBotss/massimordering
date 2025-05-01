@@ -1,259 +1,178 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Business Bots – Presupuesto Express</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <title>Massimo Pizza – Order Online</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * { margin:0; padding:0; box-sizing:border-box }
     body {
-      background: #000;
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
+      background:#000; color:#fff;
+      font-family:'Poppins',sans-serif;
+      display:flex; flex-direction:column;
+      align-items:center; padding:20px;
     }
-    .container {
-      background: #111;
-      border-radius: 8px;
-      width: 100%;
-      max-width: 480px;
-      padding: 24px;
-      box-shadow: 0 4px 20px rgba(255,255,255,0.1);
+    h1 { font-size:2rem; margin-bottom:20px; }
+    .container { width:100%; max-width:600px; }
+    .field { margin-bottom:15px; }
+    label { display:block; margin-bottom:5px; font-weight:500; }
+    select, input[type=number], input[type=text], input[type=tel], textarea {
+      width:100%; padding:10px; border:2px solid #444; border-radius:8px;
+      background:rgba(255,255,255,0.05); color:#fff;
+      font-size:1rem; transition:border-color .3s;
     }
-    .lang-selector {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 16px;
+    select:focus, input:focus, textarea:focus { border-color:#008C45; outline:none; }
+    button, .btn {
+      padding:10px 20px; font-weight:700; border:none; border-radius:8px;
+      background:#008C45; color:#fff; cursor:pointer;
+      transition:background .3s;
+      margin-top:10px;
     }
-    .lang-flag {
-      opacity: 0.6;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.9rem;
-      padding: 4px 8px;
-      border-radius: 4px;
-      transition: opacity 0.2s, background 0.2s;
-    }
-    .lang-flag.active,
-    .lang-flag:hover {
-      opacity: 1;
-      background: #222;
-    }
-    h1 {
-      text-align: center;
-      font-size: 1.8rem;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-    label {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #eee;
-      margin-bottom: 6px;
-      display: block;
-    }
-    select, input {
-      width: 100%;
-      padding: 10px;
-      background: #222;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      font-size: 1rem;
-      outline: none;
-      transition: background 0.2s;
-    }
-    select:hover, input:hover {
-      background: #333;
-    }
-    select[multiple] {
-      min-height: 80px;
-    }
-    .btn {
-      padding: 14px;
-      background: #25d366;
-      color: #000;
-      font-size: 1rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: background 0.2s;
-    }
-    .btn:hover {
-      background: #1ebe5a;
-    }
-    .note {
-      font-size: 0.75rem;
-      color: #aaa;
-      margin-top: 4px;
-    }
-    @media (max-width: 480px) {
-      .container { padding: 16px; }
-    }
+    button:hover, .btn:hover { background:#005f2f; }
+    #orderList { margin-top:10px; list-style:none; }
+    #orderList li { display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #333; }
+    #orderList li button.remove { background:transparent; border:none; color:#f00; font-size:1.2rem; cursor:pointer; }
+    #total { text-align:right; font-weight:700; margin-top:10px; }
+    .section { margin-bottom:20px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px; }
   </style>
 </head>
 <body>
+  <h1>Massimo Pizza Online Order 🍕</h1>
   <div class="container">
-    <div class="lang-selector">
-      <span id="flag-es" class="lang-flag">ES</span>
-      <span id="flag-en" class="lang-flag">EN</span>
-      <span id="flag-de" class="lang-flag">GER</span>
-    </div>
-    <h1 id="title">Presupuesto Express</h1>
-    <form id="quoteForm">
+    <form id="orderForm">
       <div class="section">
-        <label id="label-sector" for="sector">Sector o tipo de negocio</label>
-        <select id="sector" multiple required></select>
-        <p class="note">Pulsa para seleccionar/deseleccionar</p>
+        <h2>Build Your Order</h2>
+        <div class="field">
+          <label for="categorySelect">Category</label>
+          <select id="categorySelect">
+            <option value="">-- Choose Category --</option>
+            <option value="Pizza">Pizza</option>
+            <option value="White Pizza">White Pizza</option>
+            <option value="Special Pizza">Special Pizza</option>
+            <option value="Appetizer">Appetizer</option>
+            <option value="Beef Burger">Beef Burger</option>
+            <option value="Chicken Burger">Chicken Burger</option>
+            <option value="Veggie Burger">Veggie Burger</option>
+            <option value="Wrap">Wrap</option>
+            <option value="Panuozzo">Panuozzo</option>
+            <option value="Calzone">Calzone</option>
+            <option value="Homemade Dish">Homemade Dish</option>
+            <option value="Dessert">Dessert</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="itemSelect">Item</label>
+          <select id="itemSelect" disabled>
+            <option value="">-- Select Item --</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="quantityInput">Quantity</label>
+          <input type="number" id="quantityInput" min="1" value="1" disabled>
+        </div>
+        <div class="field">
+          <label>Unit Price: €<span id="priceDisplay">0.00</span></label>
+        </div>
+        <button type="button" id="addItemBtn">Add to Order</button>
       </div>
+
       <div class="section">
-        <label id="label-service" for="service">Servicios necesarios</label>
-        <select id="service" multiple required></select>
-        <p class="note">Pulsa para seleccionar/deseleccionar</p>
+        <h2>Your Items</h2>
+        <ul id="orderList"></ul>
+        <div id="total">Total: €<span id="totalDisplay">0.00</span></div>
       </div>
+
       <div class="section">
-        <label id="label-urgency" for="urgency">Urgencia del servicio</label>
-        <select id="urgency" multiple required></select>
-        <p class="note">Pulsa para seleccionar/deseleccionar</p>
+        <h2>Details</h2>
+        <div class="field"><label for="notes">General Notes</label><textarea id="notes" placeholder="e.g. extra cheese, no onions"></textarea></div>
+        <div class="field"><label for="fullname">Full Name</label><input type="text" id="fullname" placeholder="Your Name" required></div>
+        <div class="field"><label for="phone">Phone Number</label><input type="tel" id="phone" placeholder="+34611260259" required></div>
       </div>
-      <div class="section">
-        <label id="label-budget" for="budget">Presupuesto aproximado</label>
-        <select id="budget" multiple required></select>
-        <p class="note">Pulsa para seleccionar/deseleccionar</p>
-      </div>
-      <div class="section">
-        <label id="label-fullname" for="fullname">Nombre completo</label>
-        <input type="text" id="fullname" placeholder="Tu nombre" required>
-      </div>
-      <div class="section">
-        <label id="label-phone" for="phone">Teléfono WhatsApp</label>
-        <input type="tel" id="phone" placeholder="+34 611 26 02 59" required>
-      </div>
-      <button type="submit" class="btn" id="btn-submit">Enviar vía WhatsApp</button>
+
+      <button type="submit" class="btn">Send via WhatsApp</button>
     </form>
   </div>
+
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const translations = {
-        es: {
-          title: 'Presupuesto Express',
-          sector: 'Sector o tipo de negocio',
-          sectors: ['Restaurante', 'E-commerce', 'Retail', 'Servicios', 'Otro'],
-          service: 'Servicios necesarios',
-          services: ['WhatsApp Bot', 'Email Marketing', 'Instagram Bot', 'Tarjetas NFC', 'Rediseño de Menú', 'Otro'],
-          urgency: 'Urgencia del servicio',
-          urgencies: ['1 semana', '3 semanas', '+1 mes'],
-          budget: 'Presupuesto aproximado',
-          budgets: ['<100€', '100€-500€', '500€-1.000€', '1.000€-5.000€', '>5.000€', 'Otro'],
-          fullname: 'Nombre completo',
-          phone: 'Teléfono WhatsApp',
-          btn: 'Enviar vía WhatsApp'
-        },
-        en: {
-          title: 'Express Budget',
-          sector: 'Sector / Business type',
-          sectors: ['Restaurant', 'E-commerce', 'Retail', 'Services', 'Other'],
-          service: 'Services required',
-          services: ['WhatsApp Bot', 'Email Marketing', 'Instagram Bot', 'NFC Cards', 'Menu Redesign', 'Other'],
-          urgency: 'Service urgency',
-          urgencies: ['1 week', '3 weeks', '+1 month'],
-          budget: 'Approx. budget',
-          budgets: ['<100€', '100€-500€', '500€-1.000€', '1.000€-5.000€', '>5.000€', 'Other'],
-          fullname: 'Full Name',
-          phone: 'WhatsApp Number',
-          btn: 'Send via WhatsApp'
-        },
-        de: {
-          title: 'Express Angebot',
-          sector: 'Branche / Geschäftstyp',
-          sectors: ['Restaurant', 'E-Commerce', 'Einzelhandel', 'Dienstleistungen', 'Andere'],
-          service: 'Erforderliche Services',
-          services: ['WhatsApp Bot', 'E-Mail Marketing', 'Instagram Bot', 'NFC Karten', 'Menü Neustaltung', 'Andere'],
-          urgency: 'Dringlichkeit',
-          urgencies: ['1 Woche', '3 Wochen', '+1 Monat'],
-          budget: 'Ungefähres Budget',
-          budgets: ['<100€', '100€-500€', '500€-1.000€', '1.000€-5.000€', '>5.000€', 'Andere'],
-          fullname: 'Vollständiger Name',
-          phone: 'WhatsApp Nummer',
-          btn: 'Per WhatsApp senden'
-        }
+    (function(){
+      const menu = {
+        "Pizza": {"Margherita":7, "Marinara":7, "Diavola":9, "Prosciutto e Funghi":9, "Quattro Formaggi":10, "Pepperoni":9, "Tuna & Onion":9, "Hawaiian":9, "Capricciosa":10, "Napoli":9, "Vegetarian":9},
+        "White Pizza": {"Carbonara":10, "Mimosa":9, "Boscaiola":9, "Vegetarian Bianca":10},
+        "Special Pizza": {"Mallorquina":11, "Italian Classic":12, "Carnívora":13, "Cecina":12, "6 Cheeses":12},
+        "Appetizer": {"Garlic Bread":4, "French Fries":4, "Onion Rings (7)":5, "Chicken Nuggets (7)":5, "Chicken Fingers (7)":5, "Chicken Wings (7)":6},
+        "Beef Burger": {"Classic":7, "Double":9, "With Cheese":8, "Double with Cheese":10, "Crispy Bacon":9, "Double Crispy Bacon":11, "Massimo’s":12, "Massimo’s Double":14},
+        "Chicken Burger": {"Classic Chicken":7, "Double Chicken":9, "With Cheese":8, "Double with Cheese":10, "Crispy Bacon":9, "Double Crispy Bacon":11, "Massimo’s Chicken":12, "Massimo’s Chicken Double":14},
+        "Veggie Burger": {"Veggie":7, "With Cheese":8},
+        "Wrap": {"Grilled Chicken":7, "Crispy Chicken":7, "Vegetarian":7, "Tuna":7},
+        "Panuozzo": {"Caprese":8, "Serrano":9, "Vegetarian":8},
+        "Calzone": {"Classic":9, "Capricciosa":9, "Meat Lover":11, "Vegetarian":9},
+        "Homemade Dish": {"Lasagna Bolognese":10, "Spaghetti & Meatballs":10, "Eggplant Parmigiana":9},
+        "Dessert": {"Tiramisù":5, "Chocolate Crostata":4.5, "Jam Crostata":4.5, "Nutella Pizza":6}
       };
 
-      function populate(id, items) {
-        const select = document.getElementById(id);
-        select.innerHTML = '';
-        items.forEach(item => {
-          const option = document.createElement('option');
-          option.value = item;
-          option.textContent = item;
-          select.appendChild(option);
-        });
-      }
+      const categorySelect = document.getElementById('categorySelect');
+      const itemSelect = document.getElementById('itemSelect');
+      const quantityInput = document.getElementById('quantityInput');
+      const priceDisplay = document.getElementById('priceDisplay');
+      const addItemBtn = document.getElementById('addItemBtn');
+      const orderList = document.getElementById('orderList');
+      const totalDisplay = document.getElementById('totalDisplay');
+      let total = 0;
 
-      function setLanguage(lang) {
-        const t = translations[lang];
-        document.getElementById('title').textContent = t.title;
-        document.getElementById('label-sector').textContent = t.sector;
-        populate('sector', t.sectors);
-        document.getElementById('label-service').textContent = t.service;
-        populate('service', t.services);
-        document.getElementById('label-urgency').textContent = t.urgency;
-        populate('urgency', t.urgencies);
-        document.getElementById('label-budget').textContent = t.budget;
-        populate('budget', t.budgets);
-        document.getElementById('label-fullname').textContent = t.fullname;
-        document.getElementById('fullname').placeholder = t.fullname;
-        document.getElementById('label-phone').textContent = t.phone;
-        document.getElementById('phone').placeholder = t.phone;
-        document.getElementById('btn-submit').textContent = t.btn;
-        document.querySelectorAll('.lang-flag').forEach(span => {
-          span.classList.toggle('active', span.id.endsWith(`-${lang}`));
-        });
-      }
-
-      ['es', 'en', 'de'].forEach(lang => {
-        document.getElementById(`flag-${lang}`).addEventListener('click', () => setLanguage(lang));
+      categorySelect.addEventListener('change', () => {
+        const cat = categorySelect.value;
+        itemSelect.innerHTML = '<option value="">-- Select Item --</option>';
+        if(cat && menu[cat]) {
+          Object.keys(menu[cat]).forEach(name => {
+            const opt = document.createElement('option'); opt.value = name; opt.textContent = `${name} (€${menu[cat][name]})`;
+            itemSelect.appendChild(opt);
+          });
+          itemSelect.disabled = false;
+          quantityInput.disabled = false;
+        } else {
+          itemSelect.disabled = true;
+          quantityInput.disabled = true;
+        }
+        priceDisplay.textContent = '0.00';
       });
 
-      // Initialize default language
-      setLanguage('es');
+      itemSelect.addEventListener('change', () => {
+        const price = menu[categorySelect.value][itemSelect.value] || 0;
+        priceDisplay.textContent = price.toFixed(2);
+      });
 
-      document.getElementById('quoteForm').addEventListener('submit', e => {
+      addItemBtn.addEventListener('click', () => {
+        const cat = categorySelect.value;
+        const item = itemSelect.value;
+        const qty = parseInt(quantityInput.value);
+        if(!cat || !item || qty < 1) return;
+        const price = menu[cat][item] * qty;
+        total += price;
+        const li = document.createElement('li');
+        li.innerHTML = `<span>${qty}x ${item} — €${price.toFixed(2)}</span><button class="remove">&times;</button>`;
+        orderList.appendChild(li);
+        totalDisplay.textContent = total.toFixed(2);
+
+        li.querySelector('.remove').addEventListener('click', () => {
+          total -= price;
+          orderList.removeChild(li);
+          totalDisplay.textContent = total.toFixed(2);
+        });
+      });
+
+      document.getElementById('orderForm').addEventListener('submit', e => {
         e.preventDefault();
-        const getSelected = id => Array.from(document.getElementById(id).selectedOptions).map(o => o.value).join(', ');
-        const sectors = getSelected('sector');
-        const services = getSelected('service');
-        const urgencies = getSelected('urgency');
-        const budgets = getSelected('budget');
+        const itemsText = Array.from(orderList.children).map(li=>li.querySelector('span').textContent).join('; ');
+        const notes = document.getElementById('notes').value.trim();
         const name = document.getElementById('fullname').value.trim();
         const phone = document.getElementById('phone').value.trim();
-        const langSpan = document.querySelector('.lang-flag.active');
-        const lang = langSpan ? langSpan.id.split('-')[1] : 'es';
-        const greet = lang === 'en' ? 'Hello Business Bots!' : lang === 'de' ? 'Hallo Business Bots!' : '¡Hola Business Bots!';
-        const t = translations[lang];
-        let message = `${greet}\n\n`;
-        message += `${t.sector}: ${sectors}\n`;
-        message += `${t.service}: ${services}\n`;
-        message += `${t.urgency}: ${urgencies}\n`;
-        message += `${t.budget}: ${budgets}\n\n`;
-        message += `${t.fullname}: ${name}\n`;
-        message += `${t.phone}: ${phone}`;
-        window.location.href = `https://wa.me/34611260259?text=${encodeURIComponent(message)}`;
+        let msg = `Hi Massimo! I'd like to order:%0A${itemsText}%0ATotal: €${total.toFixed(2)}%0A`;
+        if(notes) msg += `%0ANotes: ${notes}%0A`;
+        msg += `%0AName: ${name}%0APhone: ${phone}%0A%0APlease confirm pickup time. 🙏`;
+        window.location.href = `https://wa.me/34611260259?text=${msg}`;
       });
-    });
+    })();
   </script>
 </body>
 </html>
