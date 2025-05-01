@@ -1,210 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Massimo Pizza – Order Online</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: #000;
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 30px;
-    }
-    .lang-switcher {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-    .lang-btn {
-      border: 2px solid #555;
-      padding: 8px 16px;
-      margin: 0 8px;
-      border-radius: 12px;
-      background: transparent;
-      color: #ccc;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s, color 0.3s;
-    }
-    .lang-btn.active {
-      background: #fff;
-      color: #000;
-    }
-    form {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.6s ease-out forwards;
-    }
-    @keyframes fadeInUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-    label { font-size: 1rem; text-align: left; }
-    select, input, textarea {
-      width: 100%;
-      padding: 10px;
-      border: 2px solid #444;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      color: #fff;
-      font-size: 1rem;
-      font-family: 'Poppins', sans-serif;
-      appearance: none;
-      transition: border-color 0.3s;
-    }
-    select:focus, input:focus, textarea:focus {
-      border-color: #8a2be2;
-      outline: none;
-    }
-    textarea { resize: vertical; min-height: 80px; }
-    .btn {
-      position: relative;
-      padding: 15px 20px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #fff;
-      text-decoration: none;
-      border: 2px solid #444;
-      border-radius: 16px;
-      background: #000;
-      cursor: pointer;
-      transition: color 0.3s, background 0.3s;
-    }
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: -2px; left: -2px; right: -2px; bottom: -2px;
-      border-radius: 16px;
-      background: linear-gradient(45deg, #008C45, #F4F5F0, #CD212A);
-      z-index: -1;
-      transition: box-shadow 0.3s;
-    }
-    .btn:hover {
-      color: #000;
-      background: rgba(255, 255, 255, 0.1);
-    }
-    .btn:hover::before {
-      box-shadow: 0 0 10px rgba(0, 140, 69, .7), 0 0 20px rgba(205, 33, 42, .7);
-    }
-    .added-products {
-      text-align: left;
-    }
-  </style>
-</head>
-<body>
-  <div class="lang-switcher">
-    <button class="lang-btn active" onclick="switchLang('en')">EN</button>
-    <button class="lang-btn" onclick="switchLang('es')">ES</button>
-    <button class="lang-btn" onclick="switchLang('de')">DE</button>
-  </div>
-
-  <h1 id="form-title">Order from Massimo Pizza 🍕!</h1>
-  <form id="orderForm">
-    <label id="label-product" for="productSelect">Choose a product</label>
-    <select id="productSelect"></select>
-
-    <label id="label-quantity" for="quantity">Quantity</label>
-    <input type="number" id="quantity" min="1" value="1"/>
-
-    <button type="button" class="btn" onclick="addProduct()">Add to Order</button>
-
-    <div class="added-products" id="addedProductsList"></div>
-    <p id="totalDisplay"><strong>Total: €0.00</strong></p>
-
-    <label id="label-notes" for="notes">General notes / Special instructions</label>
-    <textarea id="notes" placeholder="Example: Extra cheese, pick up at 9:30 PM"></textarea>
-
-    <label id="label-fullname" for="fullname">Full Name</label>
-    <input type="text" id="fullname" placeholder="Your full name" required/>
-
-    <label id="label-phone" for="phone">Your phone number</label>
-    <input type="tel" id="phone" placeholder="Ex. +34601234567" required/>
-
-    <button type="submit" class="btn">Send order via WhatsApp</button>
-  </form>
-
-  <script>
-    const productsData = {
-      "Margherita": 7, "Marinara": 7, "Diavola": 9, "Prosciutto e Funghi": 9, "Quattro Formaggi": 10, "Pepperoni": 9,
-      "Tuna & Onion": 9, "Hawaiian": 9, "Capricciosa": 10, "Napoli": 9, "Vegetarian": 9,
-      "Carbonara": 10, "Mimosa": 9, "Boscaiola": 9, "Vegetarian Bianca": 10,
-      "Mallorquina": 11, "Italian Classic": 12, "Carnívora": 13, "Cecina": 12, "6 Cheeses": 12,
-      "Garlic Bread": 4, "French Fries": 4, "Onion Rings (7)": 5, "Chicken Nuggets (7)": 5,
-      "Chicken Fingers (7)": 5, "Chicken Wings (7)": 6,
-      "Classic": 7, "Double": 9, "With Cheese": 8, "Double with Cheese": 10, "Crispy Bacon": 9,
-      "Double Crispy Bacon": 11, "Massimo’s": 12, "Massimo’s Double": 14,
-      "Classic Chicken": 7, "Double Chicken": 9, "With Cheese Chicken": 8, "Double with Cheese Chicken": 10,
-      "Crispy Bacon Chicken": 9, "Double Crispy Bacon Chicken": 11, "Massimo’s Chicken": 12, "Massimo’s Chicken Double": 14,
-      "Veggie": 7, "With Cheese Veggie": 8,
-      "Grilled Chicken": 7, "Crispy Chicken": 7, "Vegetarian Wrap": 7, "Tuna": 7,
-      "Caprese": 8, "Serrano": 9, "Vegetarian Panuozzo": 8,
-      "Classic Calzone": 9, "Capricciosa Calzone": 9, "Meat Lover": 11, "Vegetarian Calzone": 9,
-      "Lasagna Bolognese": 10, "Spaghetti & Meatballs": 10, "Eggplant Parmigiana": 9,
-      "Tiramisù": 5, "Chocolate Crostata": 4.5, "Jam Crostata": 4.5, "Nutella Pizza": 6
-    };
-
-    const categories = {
-      "Pizza": ["Margherita", "Marinara", "Diavola", "Prosciutto e Funghi", "Quattro Formaggi", "Pepperoni", "Tuna & Onion", "Hawaiian", "Capricciosa", "Napoli", "Vegetarian"],
-      "White Pizza": ["Carbonara", "Mimosa", "Boscaiola", "Vegetarian Bianca"],
-      "Special Pizza": ["Mallorquina", "Italian Classic", "Carnívora", "Cecina", "6 Cheeses"],
-      "Appetizer": ["Garlic Bread", "French Fries", "Onion Rings (7)", "Chicken Nuggets (7)", "Chicken Fingers (7)", "Chicken Wings (7)"],
-      "Beef Burger": ["Classic", "Double", "With Cheese", "Double with Cheese", "Crispy Bacon", "Double Crispy Bacon", "Massimo’s", "Massimo’s Double"],
-      "Chicken Burger": ["Classic Chicken", "Double Chicken", "With Cheese Chicken", "Double with Cheese Chicken", "Crispy Bacon Chicken", "Double Crispy Bacon Chicken", "Massimo’s Chicken", "Massimo’s Chicken Double"],
-      "Veggie Burger": ["Veggie", "With Cheese Veggie"],
-      "Wrap": ["Grilled Chicken", "Crispy Chicken", "Vegetarian Wrap", "Tuna"],
-      "Panuozzo": ["Caprese", "Serrano", "Vegetarian Panuozzo"],
-      "Calzone": ["Classic Calzone", "Capricciosa Calzone", "Meat Lover", "Vegetarian Calzone"],
-      "Homemade Dish": ["Lasagna Bolognese", "Spaghetti & Meatballs", "Eggplant Parmigiana"],
-      "Dessert": ["Tiramisù", "Chocolate Crostata", "Jam Crostata", "Nutella Pizza"]
-    };
-
-    const productSelect = document.getElementById("productSelect");
-    const addedProductsList = document.getElementById("addedProductsList");
-    const totalDisplay = document.getElementById("totalDisplay");
-    let total = 0;
-
-    for (const category in categories) {
-      const optgroup = document.createElement("optgroup");
-      optgroup.label = category;
-      categories[category].forEach(product => {
-        const option = document.createElement("option");
-        option.value = product;
-        option.textContent = `${product} (€${productsData[product] || 0})`;
-        optgroup.appendChild(option);
-      });
-      productSelect.appendChild(optgroup);
-    }
-
-    function addProduct() {
-      const product = document.getElementById('productSelect').value;
-      const quantity = parseInt(document.getElementById('quantity').value);
-      if (product && quantity > 0) {
-        const price = productsData[product] || 0;
-        const subtotal = price * quantity;
-        total += subtotal;
-        const item = document.createElement('p');
-        item.textContent = `${quantity}x ${product} (€${price}) = €${subtotal.toFixed(2)}`;
-        addedProductsList.appendChild(item);
-        totalDisplay.innerHTML = `<strong>Total: €${total.toFixed(2)}</strong>`;
-      }
-    }
-  </script>
-</body>
-</html>
+export default function MassimoPizzaOrderForm() {
+  return (
+    <div className="bg-black text-white font-[Poppins] flex flex-col items-center min-h-screen p-5 text-center">
+      <div className="flex justify-center mb-5 space-x-3">
+        <button className="lang-btn active">EN</button>
+        <button className="lang-btn">ES</button>
+        <button className="lang-btn">DE</button>
+      </div>
+      <h1 className="text-2xl font-bold mb-6">Order from Massimo Pizza 🍕!</h1>
+      <form className="w-full max-w-md flex flex-col gap-5 animate-fadeIn">
+        <div>
+          <label className="text-left block">Choose a product</label>
+          <select className="w-full p-2 bg-white bg-opacity-5 border border-gray-600 rounded text-white">
+            <option>Margherita (€7)</option>
+            <option>Marinara (€7)</option>
+            <option>Diavola (€9)</option>
+          </select>
+        </div>
+        <div>
+          <label className="text-left block">Quantity</label>
+          <input type="number" min="1" value="1" className="w-full p-2 bg-white bg-opacity-5 border border-gray-600 rounded text-white"/>
+        </div>
+        <button type="button" className="btn border border-gray-600 rounded-xl py-3 font-bold relative">
+          Add to Order
+        </button>
+        <div className="text-left border-t border-gray-600 pt-3">Added products will appear here.</div>
+        <p><strong>Total: €0.00</strong></p>
+        <div>
+          <label className="text-left block">General notes / Special instructions</label>
+          <textarea className="w-full p-2 bg-white bg-opacity-5 border border-gray-600 rounded text-white" placeholder="Example: Extra cheese, pick up at 9:30 PM"/>
+        </div>
+        <div>
+          <label className="text-left block">Full Name</label>
+          <input type="text" className="w-full p-2 bg-white bg-opacity-5 border border-gray-600 rounded text-white" placeholder="Your full name" required/>
+        </div>
+        <div>
+          <label className="text-left block">Your phone number</label>
+          <input type="tel" className="w-full p-2 bg-white bg-opacity-5 border border-gray-600 rounded text-white" placeholder="Ex. +34601234567" required/>
+        </div>
+        <button type="button" className="btn bg-[#25D366] hover:bg-[#128C7E] border-[#25D366] text-white rounded-xl py-3">
+          Send order via WhatsApp
+        </button>
+      </form>
+    </div>
+  );
+}
